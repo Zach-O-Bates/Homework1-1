@@ -1,23 +1,15 @@
 <template>
-  <div class="p-4 max-w-lg mx-auto">
-    <h1 class="text-2xl font-bold mb-4">Order Items</h1>
-
-    <div v-for="item in items" :key="item.name" class="flex justify-between items-center mb-2">
-      <span>{{ item.name }}</span>
-      <div class="flex items-center gap-2">
-        <button @click="decreaseCount(item)" :disabled="item.count === 0" class="bg-gray-300 p-2 rounded">-</button>
-        <span>{{ item.count }}</span>
-        <button @click="increaseCount(item)" class="bg-blue-500 text-white p-2 rounded">+</button>
+  <div class="gallery-container">
+    <header class="gallery-header">
+      <h1>Artistic Visions Gallery</h1>
+    </header>
+    <main class="gallery-grid">
+      <div v-for="art in artworks" :key="art.id" class="gallery-item">
+        <img :src="art.image" :alt="art.title" class="art-image" />
+        <h2 class="art-title">{{ art.title }}</h2>
+        <p class="art-artist">by {{ art.artist }}</p>
       </div>
-    </div>
-
-    <button @click="submitOrder" class="bg-green-500 text-white mt-4 p-2 rounded w-full">
-      Submit Order
-    </button>
-
-    <button @click="praiseTheSun" class="bg-yellow-400 text-black mt-2 p-2 rounded w-full">
-      Praise the Sun 🌞
-    </button>
+    </main>
   </div>
 </template>
 
@@ -25,34 +17,56 @@
 export default {
   data() {
     return {
-      items: [
-        { name: "Eggs", count: 0 },
-        { name: "Tortillas", count: 0 },
-        { name: "Chocolate", count: 0 },
-      ],
+      artworks: [
+        { id: 1, title: "Plankton", artist: "Unknown", image: "/Image.jpg" },
+        { id: 2, title: "Moth", artist: "Emily Smith", image: "/Image 4.jpg" },
+        { id: 3, title: "Colorful Vision", artist: "Anonymous", image: "/Image 5.jpg" },
+        { id: 4, title: "Golden Praise", artist: "H. Miyazaki", image: "/Image 6.jpg" }
+      ]
     };
-  },
-  methods: {
-    increaseCount(item) {
-      item.count++;
-    },
-    decreaseCount(item) {
-      if (item.count > 0) {
-        item.count--;
-      }
-    },
-    submitOrder() {
-      alert(`Order Submitted: ${this.items.map(i => `${i.name}: ${i.count}`).join(', ')}`);
-    },
-    praiseTheSun() {
-      alert("🌞 PRAISE THE SUN! 🌞");
-    },
-  },
+  }
 };
 </script>
 
-<style>
-body {
-  font-family: Arial, sans-serif;
+<style scoped>
+.gallery-container {
+  text-align: center;
+  padding: 20px;
+}
+
+.gallery-header {
+  background-color: #222;
+  color: white;
+  padding: 10px;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.gallery-item {
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 8px;
+  background: white;
+}
+
+.art-image {
+  max-width: 100%;
+  border-radius: 8px;
+}
+
+.art-title {
+  color: aqua;
+  margin: 10px 0 5px;
+  font-size: 1.2em;
+}
+
+.art-artist {
+  color: #555;
+  font-style: italic;
 }
 </style>
