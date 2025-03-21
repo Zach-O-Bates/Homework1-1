@@ -1,72 +1,94 @@
 <template>
-  <div class="gallery-container">
-    <header class="gallery-header">
-      <h1>Artistic Visions Gallery</h1>
-    </header>
-    <main class="gallery-grid">
-      <div v-for="art in artworks" :key="art.id" class="gallery-item">
-        <img :src="art.image" :alt="art.title" class="art-image" />
-        <h2 class="art-title">{{ art.title }}</h2>
-        <p class="art-artist">by {{ art.artist }}</p>
-      </div>
-    </main>
+  <div class="grid-container">
+    <div
+      v-for="(card, index) in cards"
+      :key="index"
+      class="card-wrapper"
+      :class="{ flipped: card.isFlipped }"
+      @click="flipCard(index)"
+    >
+      <Card class="card front">
+        <template #header>
+          <h3>{{ card.title }}</h3>
+        </template>
+      </Card>
+
+      <Card class="card back">
+        <template #content>
+          <p>{{ card.description }}</p>
+        </template>
+      </Card>
+    </div>
   </div>
 </template>
 
 <script>
+import Card from 'primevue/card';
+
 export default {
+  components: { Card },
   data() {
     return {
-      artworks: [
-        { id: 1, title: "Plankton", artist: "Unknown", image: "/Image.jpg" },
-        { id: 2, title: "Moth", artist: "Emily Smith", image: "/Image 4.jpg" },
-        { id: 3, title: "Colorful Vision", artist: "Anonymous", image: "/Image 5.jpg" },
-        { id: 4, title: "Golden Praise", artist: "H. Miyazaki", image: "/Image 6.jpg" }
+      cards: [
+        { title: "Memory", description: "King", isFlipped: false },
+        { title: "Memory", description: "Queen", isFlipped: false },
+        { title: "Memory", description: "Princess", isFlipped: false },
+        { title: "Memory", description: "Prince", isFlipped: false },
+        { title: "Memory", description: "King", isFlipped: false },
+        { title: "Memory", description: "Princess", isFlipped: false },
+        { title: "Memory", description: "Prince", isFlipped: false },
+        { title: "Memory", description: "Queen", isFlipped: false },
       ]
     };
+  },
+  methods: {
+    flipCard(index) {
+      this.cards[index].isFlipped = !this.cards[index].isFlipped;
+    }
   }
 };
 </script>
 
 <style scoped>
-.gallery-container {
-  text-align: center;
-  padding: 20px;
-}
-
-.gallery-header {
-  background-color: #222;
-  color: white;
-  padding: 10px;
-}
-
-.gallery-grid {
+.grid-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-  margin-top: 20px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  justify-items: center;
+  margin: 20px;
 }
 
-.gallery-item {
-  border: 1px solid #ddd;
-  padding: 10px;
-  border-radius: 8px;
+.card-wrapper {
+  position: relative;
+  width: 150px;
+  height: 200px;
+  transform-style: preserve-3d;
+  transition: transform 0.6s;
+}
+
+.card-wrapper.flipped {
+  transform: rotateY(180deg);
+}
+
+.card {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.front {
+  background: black;
+  border: 1px solid white;
+}
+
+.back {
   background: white;
-}
-
-.art-image {
-  max-width: 100%;
-  border-radius: 8px;
-}
-
-.art-title {
-  color: aqua;
-  margin: 10px 0 5px;
-  font-size: 1.2em;
-}
-
-.art-artist {
-  color: #555;
-  font-style: italic;
+  color: Red;
+  transform: rotateY(180deg);
 }
 </style>
